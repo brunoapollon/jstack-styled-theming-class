@@ -5,24 +5,18 @@ import Header from "../Header";
 import PostsList from "../PostsList";
 import Footer from "../Footer";
 
-export default function Layout() {
-  const theme = useTheme();
+export default class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return (
-    <>
-      <Header />
-      <PostsList />
-      <Footer />
-
-      <div
-        style={{
-          marginTop: 24,
-          backgroundColor: theme.footerBackgroundColor,
-          padding: 24,
-        }}
-      >
-        Oi, tudo bem com você?
-      </div>
-    </>
-  );
+  render() {
+    return (
+      <>
+        <Header />
+        <PostsList />
+        <Footer />
+      </>
+    );
+  }
 }

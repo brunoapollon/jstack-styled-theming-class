@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useEffect } from "react";
+import React, { useMemo, useContext, Component } from "react";
 import { ThemeProvider } from "styled-components";
 
 import GlobalStyle from "./styles/global";
@@ -10,26 +10,21 @@ import {
   ToggleThemeProvider,
 } from "./contexts/ToggleThemeContext";
 
-function AppContent() {
-  const { selectedTheme } = useContext(ToggleThemeContext);
-
-  const currentTheme = useMemo(() => {
-    return themes[selectedTheme] || themes.dark;
-  }, [selectedTheme]);
-  return (
-    <ThemeProvider theme={currentTheme}>
-      <GlobalStyle />
-      <Layout />
-    </ThemeProvider>
-  );
-}
-
-function App() {
-  return (
-    <ToggleThemeProvider>
-      <AppContent />
-    </ToggleThemeProvider>
-  );
+class App extends Component {
+  render() {
+    return (
+      <ToggleThemeProvider>
+        <ToggleThemeContext.Consumer>
+          {({ selectedTheme }) => (
+            <ThemeProvider theme={themes[selectedTheme] || themes.dark}>
+              <GlobalStyle />
+              <Layout />
+            </ThemeProvider>
+          )}
+        </ToggleThemeContext.Consumer>
+      </ToggleThemeProvider>
+    );
+  }
 }
 
 export default App;
