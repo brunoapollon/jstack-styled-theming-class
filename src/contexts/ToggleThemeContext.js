@@ -1,6 +1,5 @@
 import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
-import { useStateLocal } from "../hooks/useStateLocal";
 
 export const ToggleThemeContext = createContext({
   selectedTheme: "dark",
