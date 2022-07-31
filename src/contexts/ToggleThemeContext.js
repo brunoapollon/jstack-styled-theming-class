@@ -7,20 +7,31 @@ export const ToggleThemeContext = createContext({
   onToggleTheme: () => {},
 });
 
-export function ToggleThemeProvider({ children }) {
-  const [theme, setTheme] = useStateLocal("theme");
+export class ToggleThemeProvider extends React.Component {
+  state = {
+    theme: localStorage.getItem("theme") || "dark",
+  };
+  handleToggleTheme = () => {
+    this.setState(
+      (prevState) => ({ theme: prevState.theme === "dark" ? "light" : "dark" }),
+      () => {
+        localStorage.setItem("theme", this.state.theme);
+      }
+    );
+  };
 
-  function handleToggleTheme() {
-    setTheme((prevState) => (prevState === "dark" ? "light" : "dark"));
+  render() {
+    return (
+      <ToggleThemeContext.Provider
+        value={{
+          selectedTheme: this.state.theme,
+          onToggleTheme: this.handleToggleTheme,
+        }}
+      >
+        {this.props.children}
+      </ToggleThemeContext.Provider>
+    );
   }
-
-  return (
-    <ToggleThemeContext.Provider
-      value={{ selectedTheme: theme, onToggleTheme: handleToggleTheme }}
-    >
-      {children}
-    </ToggleThemeContext.Provider>
-  );
 }
 
 ToggleThemeProvider.propTypes = {
